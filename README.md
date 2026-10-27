@@ -1,95 +1,213 @@
-# WTA-odds-predictor (by autoreadme.vercel.app)
+# WTA Odds Predictor
 
-![GitHub stars](https://img.shields.io/github/stars/Jeffrey-Inyang/WTA-odds-predictor?style=social) ![GitHub forks](https://img.shields.io/github/forks/Jeffrey-Inyang/WTA-odds-predictor?style=social)
+## Overview
 
-## Description
+WTA Odds Predictor is a Python desktop application that uses **Linear Regression** to estimate tennis betting odds based on player rankings and points.
 
-WTA-odds-predictor is a desktop application designed to predict tennis odds using linear regression. Developed in Python, this application allows users to upload CSV files, train a machine learning model, make predictions, and visualize results in an intuitive user interface. The application integrates several powerful libraries, including `tkinter` for the GUI, `pandas` for data processing, `scikit-learn` for model building, and `matplotlib` for result visualization.
+The application loads historical data from a CSV file, trains a regression model, predicts odds for new inputs, and visualizes actual odds against predicted odds.
 
 ## Features
 
-- **User-friendly GUI**: Built with `tkinter` for easy interaction.
-- **Data Processing**: Use `pandas` to manipulate and prepare data.
-- **Machine Learning**: Train models using `scikit-learn`.
-- **Prediction and Visualization**: Make predictions and visualize results with `matplotlib`.
-- **CSV File Upload**: Easily upload your data in CSV format for analysis.
+- **Load CSV:** Import historical tennis data.
+- **Train Model:** Train a linear regression model using player rankings and points.
+- **Predict New Odds:** Estimate odds from a player's ranking and points.
+- **Plot Results:** Visualize actual odds against predicted odds.
+- **Model Evaluation:** Display the model's coefficients, intercept, and mean squared error (MSE).
 
 ## Technologies Used
 
-- Python
-- `tkinter`
-- `pandas`
-- `scikit-learn`
-- `matplotlib`
+- Python 3.13
+- Pandas
+- NumPy
+- Matplotlib
+- Scikit-learn
+- Tkinter
 
-## Installation Instructions
+## Project Structure
 
-To get started with WTA-odds-predictor, follow these steps to install the necessary dependencies and run the application:
+```text
+prediction-model/
+├── WTA LR pred.py
+├── wta.csv
+└── README.md
+```
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/Jeffrey-Inyang/WTA-odds-predictor.git
-   ```
+## Requirements
 
-2. **Navigate to the Project Directory**:
-   ```bash
-   cd WTA-odds-predictor
-   ```
+Install Python 3.13 or another compatible Python version.
 
-3. **Create a Virtual Environment (optional but recommended)**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+The following libraries are required:
 
-4. **Install Requirements**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+- pandas
+- numpy
+- matplotlib
+- scikit-learn
 
-5. **Run the Application**:
-   ```bash
-   python main.py
-   ```
+Tkinter is also required for the graphical user interface. It is generally included with standard Windows Python installations.
 
-## Usage Examples
+## Installation
 
-Once the application is running, you can follow these steps to make predictions:
+### 1. Clone or download the project
 
-1. **Upload Your CSV File**: Use the upload button in the GUI to select your CSV data file.
-2. **Train the Model**: Click on the "Train Model" button to start the training process.
-3. **Make Predictions**: After training, use the "Predict" button to get predictions based on the provided data.
-4. **Visualize Results**: Click on the "Visualize" button to plot the results.
+Place the Python script and CSV dataset in your project folder.
 
-## Contributing
+### 2. Open PowerShell
 
-We welcome contributions from the community! To contribute to WTA-odds-predictor, please follow these steps:
+Navigate to the project directory. For example:
 
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix:
-   ```bash
-   git checkout -b feature/YourFeatureName
-   ```
-3. Make your changes and commit them:
-   ```bash
-   git commit -m "Add your message here"
-   ```
-4. Push your branch:
-   ```bash
-   git push origin feature/YourFeatureName
-   ```
-5. Create a pull request with a clear description of your changes.
+```powershell
+cd "$HOME\Documents\prediction-model"
+```
+
+### 3. Install dependencies
+
+Run:
+
+```powershell
+python -m pip install pandas numpy matplotlib scikit-learn
+```
+
+### 4. Verify the project files
+
+Run:
+
+```powershell
+Get-ChildItem
+```
+
+Ensure that `WTA LR pred.py` and `wta.csv` are present in the project directory.
+
+## Running the Application
+
+Execute the following command in PowerShell:
+
+```powershell
+python ".\WTA LR pred.py"
+```
+
+The WTA Odds Predictor desktop window should open.
+
+## How to Use
+
+### Step 1: Load Historical Data
+
+Click **Load CSV** and select `wta.csv`.
+
+The dataset must contain the following columns:
+
+| Column | Description |
+|---|---|
+| `Rank_1` | Ranking of player 1 |
+| `Pts_1` | Points of player 1 |
+| `Odd_1` | Historical odds for player 1 |
+
+The application converts `Odd_1` to numeric values and removes rows with missing values in the selected columns.
+
+### Step 2: Train the Model
+
+Click **Train Model**.
+
+The application fits a linear regression model using `Rank_1` and `Pts_1` to predict `Odd_1`.
+
+The output includes:
+
+- Rank coefficient
+- Points coefficient
+- Intercept
+- Mean squared error (MSE)
+
+### Step 3: Predict New Odds
+
+Click **Predict New Odd**.
+
+Enter the player's ranking and points when prompted. The application displays the estimated odds.
+
+### Step 4: Plot Results
+
+Click **Plot Results** to display a scatter plot comparing actual historical odds with model predictions. A reference line indicates where predicted values equal actual values.
+
+## Model Description
+
+The application uses multiple linear regression.
+
+The prediction equation is:
+
+\[
+\widehat{Odd_1} = \beta_0 + \beta_1 Rank_1 + \beta_2 Pts_1
+\]
+
+Where:
+
+- \(\widehat{Odd_1}\) is the predicted odds.
+- \(\beta_0\) is the intercept.
+- \(\beta_1\) is the coefficient for player ranking.
+- \(\beta_2\) is the coefficient for player points.
+
+The model estimates these coefficients from the historical dataset.
+
+## Evaluation
+
+The application calculates mean squared error (MSE) using the training data:
+
+\[
+MSE = \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2
+\]
+
+A lower MSE indicates smaller average squared prediction errors on the evaluated observations. Since the current implementation evaluates the model on its training data, this result does not independently measure performance on unseen matches.
+
+## Troubleshooting
+
+### Python cannot find the script
+
+If you receive a `can't open file` error, verify your current directory:
+
+```powershell
+Get-Location
+```
+
+List its files:
+
+```powershell
+Get-ChildItem
+```
+
+Navigate to the directory containing the Python script, or run the script using its full path.
+
+### Missing Python libraries
+
+Install the required packages:
+
+```powershell
+python -m pip install pandas numpy matplotlib scikit-learn
+```
+
+### Missing CSV columns
+
+Confirm that the CSV contains the exact column names:
+
+```text
+Rank_1
+Pts_1
+Odd_1
+```
+
+Column names are case-sensitive in the script.
+
+### Tkinter errors
+
+If Python reports that Tkinter is unavailable, install or repair a Python distribution that includes Tk support.
+
+## Limitations
+
+- Predictions use only player 1's ranking and points.
+- The current model does not incorporate other match characteristics.
+- Model evaluation uses the same observations used for training.
+- Predictions are estimates and are not guarantees of betting outcomes.
+
+## Disclaimer
+
+This project is intended for educational and statistical analysis purposes. Predicted odds may differ from bookmaker odds and actual match outcomes. No betting profit is guaranteed.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Thanks to the contributors and the open-source community for their invaluable resources.
-- Special thanks to the libraries and frameworks that made this project possible.
-
----
-
-For more information, please visit the [WTA-odds-predictor GitHub page](https://github.com/Jeffrey-Inyang/WTA-odds-predictor).
-```
+No license has been specified for this project. Add a license file if you intend to distribute the software publicly.
